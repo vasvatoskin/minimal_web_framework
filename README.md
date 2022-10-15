@@ -1,2 +1,3 @@
-# HTTPServer
-Project for learning
+#HTTPServer
+This project was created for educational purposes only.
+
