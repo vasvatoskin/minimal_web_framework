@@ -1,7 +1,7 @@
 from email.parser import Parser
 from functools import lru_cache
 from urllib.parse import parse_qs, urlparse
-from my_error import HTTPError
+from .my_error import HTTPError
 
 MAX_LINE = 64*1024
 MAX_HEADERS = 100
@@ -14,13 +14,6 @@ class MyParser:
     rfile = self.connect.makefile('rb')
     method, target, ver = self.parse_request_line(rfile)
     headers = self.parse_headers(rfile)
-    host = headers.get('Host')
-    if not host:
-      raise HTTPError(400, 'Bad request',
-                      'Host header is missing')
-    if host not in (self._server_name,
-                    f'{self._server_name}:{self._port}'):
-      raise HTTPError(404, 'Not found')    
     return MyRequest(method, target, ver, headers, rfile)
   
   def parse_headers(self, rfile):
