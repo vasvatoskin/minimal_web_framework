@@ -72,9 +72,11 @@ class MyRequest:
   @property
   def path(self):
     return self.url.path
-  
+ 
+  @property
   def body(self):
-    size = self.headers.get('Content-Lenght')
+    size = self.headers.get('Content-Length')
     if not size:
       return None
-    return self.rfile.read(size)
+    body = self.rfile.read(int(size))
+    return body.decode()

@@ -32,8 +32,9 @@ class MyHandler:
   
   
   def do_post(self, req:MyRequest):
-    f = self.func_map.get_endpoint[req.target, req.method]
-    f(req.body)
+    f = self.func_map.get_endpoint(req.target, req.method)
+    body = req.body
+    f(body)
     return MyResponse(204, 'Created')
 
 

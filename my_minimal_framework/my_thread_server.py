@@ -52,13 +52,13 @@ class MyServer:
             conn = None
         except Exception as e:
             self.send_error(conn, e)
+            conn.close()
 
 
 
     def send_response(self, conn, resp):
         wfile = conn.makefile('wb')
         status_line = f'HTTP/1.1 {resp.status} {resp.reason}\r\n'
-        print(status_line)
         wfile.write(status_line.encode('iso-8859-1'))
         
         if resp.headers:
@@ -69,11 +69,9 @@ class MyServer:
         wfile.write(b'\r\n')
         
         if resp.body:
-            print(resp.body)
             wfile.write(resp.body)
         
         wfile.flush()
-        print("Выход")
         wfile.close()
 
     def send_error(self, conn, err):
